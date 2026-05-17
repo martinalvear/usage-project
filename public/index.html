@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b0f19" />
+    <title>Token Pulse · Codex + Claude</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main>
+      <div class="ambient one"></div>
+      <div class="ambient two"></div>
+      <header class="hero">
+        <nav>
+          <div class="brand"><span>TP</span> Token Pulse</div>
+          <div class="nav-actions">
+            <select id="range" aria-label="Rango de horas">
+              <option value="6">Últimas 6h</option>
+              <option value="24" selected>Últimas 24h</option>
+              <option value="72">Últimos 3 días</option>
+              <option value="168">Últimos 7 días</option>
+            </select>
+            <button class="ghost-button" id="refresh" type="button">↻ Actualizar</button>
+            <button class="primary-button" id="open-modal" type="button">🔑 Registrar</button>
+          </div>
+        </nav>
+        <section class="hero-grid">
+          <div>
+            <div class="eyebrow">▰ Monitor real-time para agentes IA</div>
+            <h1>Uso real de tokens para Codex y Claude en una vista minimalista.</h1>
+            <p>Conecta tus claves administrativas, consulta los endpoints oficiales de uso/costo y observa consumo, cache, modelos y gasto con actualización automática cada minuto.</p>
+          </div>
+          <div class="summary-card">
+            <div class="summary-line" id="summary-time">Esperando datos</div>
+            <strong id="summary-tokens">—</strong>
+            <span id="summary-detail">tokens combinados</span>
+          </div>
+        </section>
+      </header>
+
+      <div class="error-banner hidden" id="error"></div>
+      <section class="providers-grid" id="providers"><div class="loading-card">Cargando telemetría…</div></section>
+
+      <section class="insights">
+        <div>
+          <span class="insight-icon">💳</span>
+          <h3>Qué está listo</h3>
+          <p>Backend proxy, registro de credenciales en memoria, polling cada 60s, datos demo cuando no hay claves y visualización responsive para móvil/escritorio.</p>
+        </div>
+        <div>
+          <span class="insight-icon">⚠️</span>
+          <h3>Límites importantes</h3>
+          <p>OpenAI y Anthropic exponen APIs de uso para organizaciones/API, no credenciales personales de consumidor. Anthropic requiere una clave admin de organización.</p>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal-backdrop hidden" id="modal" role="dialog" aria-modal="true">
+      <form class="modal" id="connection-form">
+        <button class="icon-button close" id="close-modal" type="button" aria-label="Cerrar">×</button>
+        <div class="modal-icon">🔑</div>
+        <h2>Conectar plataformas</h2>
+        <p>Para evitar exponer secretos en el navegador, las claves se guardan solo en memoria del servidor local. En producción sustitúyelo por OAuth/secret manager.</p>
+        <label>
+          Plataforma
+          <select id="provider-select">
+            <option value="openai">Codex / OpenAI</option>
+            <option value="anthropic">Claude / Anthropic</option>
+          </select>
+        </label>
+        <label>
+          Clave admin
+          <input id="api-key" placeholder="sk-admin… o sk-ant-admin…" type="password" autocomplete="off" />
+        </label>
+        <label>
+          Organization ID opcional
+          <input id="organization-id" placeholder="org_…" />
+        </label>
+        <div class="form-message hidden" id="form-message"></div>
+        <button class="primary-button" type="submit" id="save-connection">Conectar</button>
+      </form>
+    </div>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
